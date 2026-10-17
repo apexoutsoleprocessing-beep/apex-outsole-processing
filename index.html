@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -6,151 +7,54 @@
 <title>apex-outsole-processing</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f1f5f9;
-  color: #172033;
-}
-
-header {
-  background: #123456;
-  color: white;
-  padding: 22px 15px;
-  text-align: center;
-}
-
-header h1 {
-  margin: 0 0 15px;
-  font-size: 26px;
-  overflow-wrap: anywhere;
-}
-
-button {
-  padding: 11px 16px;
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  font-weight: bold;
-  margin: 4px;
-}
-
-.primary { background: #0875cf; color: white; }
-.secondary { background: #dbeafe; color: #123456; }
-.delete { background: #dc2626; color: white; }
-
-main {
-  max-width: 1100px;
-  margin: 20px auto;
-  padding: 0 12px;
-}
-
-.panel {
-  background: white;
-  padding: 18px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 12px #0000000c;
-}
-
-.hidden { display: none; }
-
-label {
-  display: block;
-  margin: 13px 0 6px;
-  font-weight: bold;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccd5df;
-  border-radius: 7px;
-  font: inherit;
-}
-
-.preview {
-  display: none;
-  max-width: 200px;
-  max-height: 180px;
-  margin-top: 10px;
-  object-fit: contain;
-}
-
-.search { margin-bottom: 18px; }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 16px;
-}
-
-.card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 12px #00000012;
-}
-
-.card img {
-  width: 100%;
-  height: 210px;
-  object-fit: contain;
-  background: #e8edf3;
-}
-
-.card-body { padding: 15px; }
-.card h2 { margin-top: 0; overflow-wrap: anywhere; }
-
-.detail {
-  padding: 9px 0;
-  border-top: 1px solid #e5e7eb;
-  overflow-wrap: anywhere;
-}
-
-.detail b {
-  display: block;
-  font-size: 12px;
-  color: #64748b;
-  margin-bottom: 4px;
-}
-
-footer {
-  text-align: center;
-  padding: 25px;
-  color: #64748b;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+header{background:#123456;color:white;padding:20px;text-align:center}
+header h1{font-size:25px;overflow-wrap:anywhere}
+button{padding:11px 15px;border:0;border-radius:7px;cursor:pointer;font-weight:bold;margin:4px}
+.primary{background:#0875cf;color:white}
+.secondary{background:#dbeafe;color:#123456}
+.delete{background:#dc2626;color:white}
+main{max-width:1100px;margin:20px auto;padding:0 12px}
+.panel{background:white;padding:18px;border-radius:12px;margin-bottom:20px}
+.hidden{display:none!important}
+label{display:block;margin:13px 0 6px;font-weight:bold}
+input,textarea{width:100%;padding:12px;border:1px solid #ccd5df;border-radius:7px;font:inherit}
+.preview{display:none;max-width:200px;max-height:180px;margin-top:10px;object-fit:contain}
+.search{margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px #00000012}
+.card img{width:100%;height:210px;object-fit:contain;background:#e8edf3}
+.card-body{padding:15px}
+.card h2{overflow-wrap:anywhere}
+.detail{padding:9px 0;border-top:1px solid #e5e7eb;overflow-wrap:anywhere;white-space:pre-wrap}
+.detail b{display:block;font-size:12px;color:#64748b;margin-bottom:4px}
+.status{padding:10px;background:#eaf2ff;border-radius:7px}
+footer{text-align:center;padding:25px;color:#64748b}
 </style>
 </head>
 
 <body>
-
 <header>
   <h1>APEX OUTSOLE PROCESSING</h1>
   <button class="secondary" id="loginBtn">Admin Login</button>
+  <button class="delete hidden" id="logoutBtn">Logout</button>
 </header>
 
 <main>
-
-  <!-- ADMIN LOGIN -->
   <section id="loginPanel" class="panel hidden">
     <h2>Admin Login</h2>
     <form id="loginForm">
-      <label for="password">Password</label>
-      <input id="password" type="password" required>
+      <label for="password">পাসওয়ার্ড</label>
+      <input id="password" type="password" placeholder="Admin Password" required>
       <button class="primary" type="submit">Login</button>
-      <button class="secondary" type="button"
-        onclick="hideLogin()">Cancel</button>
+      <button class="secondary" id="cancelLogin" type="button">Cancel</button>
       <p id="loginError"></p>
     </form>
   </section>
 
-  <!-- ADMIN FORM -->
   <section id="adminPanel" class="panel hidden">
     <h2 id="formHeading">Add New Sole</h2>
-
     <form id="soleForm">
       <input type="hidden" id="editId">
 
@@ -159,222 +63,118 @@ footer {
       <img id="preview" class="preview" alt="Picture preview">
 
       <label for="soleName">SOLE NAME</label>
-      <input id="soleName" required
-        placeholder="Enter sole name">
+      <input id="soleName" required placeholder="Enter sole name">
 
       <label for="colour">COLOUR</label>
       <input id="colour" placeholder="Enter colour">
 
       <label for="processing">SOLE PROCESSING</label>
-      <input id="processing"
-        placeholder="Enter sole processing">
+      <input id="processing" placeholder="Enter sole processing">
 
       <label for="colourMix">COLOUR MIX (made)</label>
-      <textarea id="colourMix" rows="3"
-        placeholder="Enter colour mix details"></textarea>
+      <textarea id="colourMix" rows="3"></textarea>
 
-      <button class="primary" type="submit">Save Item</button>
-      <button class="secondary" type="button"
-        onclick="resetForm()">Clear</button>
-      <button class="delete" type="button"
-        onclick="logout()">Logout</button>
+      <button class="primary" id="saveBtn" type="submit">Save Item</button>
+      <button class="secondary" id="clearBtn" type="button">Clear</button>
     </form>
   </section>
 
-  <!-- SEARCH -->
-  <input class="search" id="search"
-    placeholder="Search sole name or colour...">
+  <input class="search" id="search" placeholder="Search sole name or colour...">
 
-  <!-- ITEMS SHOW HERE -->
+  <p id="status" class="status">Firebase থেকে ডাটা লোড হচ্ছে...</p>
   <section id="items" class="grid"></section>
 
-  <p id="emptyMessage" style="text-align:center">
-    কোনো আইটেম নেই। Admin Login করে নতুন ছবি যোগ করুন।
+  <p id="emptyMessage" style="text-align:center;display:none">
+    কোনো আইটেম নেই।
   </p>
-
 </main>
 
-<footer>
-  © 2026 apex-outsole-processing
-</footer>
+<footer>© 2026 apex-outsole-processing</footer>
 
-<!-- FIREBASE CONNECTION ADDED -->
 <script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
 import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  getDatabase, ref, push, set, update, remove, onValue
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
 
-import {
-  getDatabase,
-  ref,
-  set,
-  push,
-  onValue,
-  get
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-const app = initializeApp({
-  databaseURL:
-    "https://horintati-sports-club-9e801-default-rtdb.firebaseio.com"
-});
-
-const db = getDatabase(app);
-
-window.firebaseDB = db;
-
-window.firebaseFunctions = {
-  ref,
-  set,
-  push,
-  onValue,
-  get
+const firebaseConfig = {
+  apiKey: "AIzaSyDXtsTR0gKRqDN8EEIdvHdkhMnUrmqfITg",
+  authDomain: "apex-outsole-processiing.firebaseapp.com",
+  databaseURL: "https://apex-outsole-processiing-default-rtdb.firebaseio.com",
+  projectId: "apex-outsole-processiing",
+  storageBucket: "apex-outsole-processiing.firebasestorage.app",
+  messagingSenderId: "471957129756",
+  appId: "1:471957129756:web:83094765801aa073256dd9",
+  measurementId: "G-BRSPNGQPS8"
 };
 
-</script>
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const productsRef = ref(db, "products");
 
-<!-- YOUR ORIGINAL JAVASCRIPT -->
-<script>
 const ADMIN_PASSWORD = "@#$@#$@#$";
-const STORAGE_KEY = "apex_outsole_items";
+const $ = id => document.getElementById(id);
 
 let isAdmin = false;
 let currentImage = "";
 let items = [];
-
-try {
-  items = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  if (!Array.isArray(items)) items = [];
-} catch {
-  items = [];
-}
-
-const $ = id => document.getElementById(id);
-
-function hideLogin() {
-  $("loginPanel").classList.add("hidden");
-}
-
-$("loginBtn").onclick = () => {
-  $("loginPanel").classList.remove("hidden");
-};
-
-$("loginForm").onsubmit = function(e) {
-  e.preventDefault();
-
-  if ($("password").value === ADMIN_PASSWORD) {
-    isAdmin = true;
-    hideLogin();
-    $("adminPanel").classList.remove("hidden");
-    $("loginBtn").textContent = "Admin Active";
-    $("password").value = "";
-    renderItems();
-  } else {
-    $("loginError").textContent = "Wrong password!";
-  }
-};
-
-function logout() {
-  isAdmin = false;
-  $("adminPanel").classList.add("hidden");
-  $("loginBtn").textContent = "Admin Login";
-  resetForm();
-  renderItems();
-}
-
-function saveItems() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    return true;
-  } catch (e) {
-    alert("Storage full! ছোট ছবি ব্যবহার করুন।");
-    return false;
-  }
-}
+let loading = true;
 
 function escapeHTML(value) {
-  return String(value || "").replace(/[&<>"']/g, ch => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
   })[ch]);
 }
 
-// Convert selected gallery picture to a smaller image.
-$("picture").onchange = function() {
-  const file = this.files[0];
-  if (!file) return;
+function setStatus(message) {
+  $("status").textContent = message;
+  $("status").style.display = "block";
+}
 
-  if (!file.type.startsWith("image/")) {
-    alert("Please choose an image.");
-    return;
+$("loginBtn").onclick = () => {
+  if (!isAdmin) {
+    $("loginPanel").classList.remove("hidden");
   }
-
-  const url = URL.createObjectURL(file);
-  const img = new Image();
-
-  img.onload = function() {
-    const scale = Math.min(
-      1, 900 / Math.max(img.width, img.height)
-    );
-
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(img.width * scale));
-    canvas.height = Math.max(1, Math.round(img.height * scale));
-
-    canvas.getContext("2d").drawImage(
-      img, 0, 0, canvas.width, canvas.height
-    );
-
-    currentImage = canvas.toDataURL("image/jpeg", 0.8);
-    $("preview").src = currentImage;
-    $("preview").style.display = "block";
-    URL.revokeObjectURL(url);
-  };
-
-  img.onerror = function() {
-    URL.revokeObjectURL(url);
-    alert("ছবিটি খোলা যায়নি। অন্য ছবি বাছুন।");
-  };
-
-  img.src = url;
 };
 
-$("soleForm").onsubmit = function(e) {
-  e.preventDefault();
+$("cancelLogin").onclick = () => {
+  $("loginPanel").classList.add("hidden");
+  $("loginError").textContent = "";
+  $("password").value = "";
+};
 
-  if (!isAdmin) return;
+$("loginForm").onsubmit = event => {
+  event.preventDefault();
 
-  const id = $("editId").value;
-  const oldItem = items.find(item => item.id === id);
-
-  if (!oldItem && !currentImage) {
-    alert("প্রথমে একটি ছবি বাছুন।");
-    return;
-  }
-
-  const item = {
-    id: id || Date.now().toString(),
-    image: currentImage || (oldItem ? oldItem.image : ""),
-    name: $("soleName").value.trim(),
-    colour: $("colour").value.trim(),
-    processing: $("processing").value.trim(),
-    mix: $("colourMix").value.trim()
-  };
-
-  if (oldItem) {
-    items = items.map(x => x.id === id ? item : x);
-  } else {
-    items.unshift(item);
-  }
-
-  if (saveItems()) {
-    resetForm();
+  if ($("password").value === ADMIN_PASSWORD) {
+    isAdmin = true;
+    $("loginPanel").classList.add("hidden");
+    $("adminPanel").classList.remove("hidden");
+    $("loginBtn").classList.add("hidden");
+    $("logoutBtn").classList.remove("hidden");
+    $("password").value = "";
+    $("loginError").textContent = "";
     renderItems();
-    alert("সফলভাবে সেভ হয়েছে!");
+  } else {
+    $("loginError").textContent = "ভুল পাসওয়ার্ড!";
+    $("password").value = "";
   }
+};
+
+$("logoutBtn").onclick = () => {
+  isAdmin = false;
+  $("adminPanel").classList.add("hidden");
+  $("loginPanel").classList.add("hidden");
+  $("loginBtn").classList.remove("hidden");
+  $("logoutBtn").classList.add("hidden");
+  resetForm();
+  renderItems();
 };
 
 function resetForm() {
@@ -384,50 +184,176 @@ function resetForm() {
   $("preview").removeAttribute("src");
   $("preview").style.display = "none";
   $("formHeading").textContent = "Add New Sole";
+  $("saveBtn").textContent = "Save Item";
 }
 
+$("clearBtn").onclick = resetForm;
+
+$("picture").onchange = function() {
+  const file = this.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("একটি ছবি নির্বাচন করুন।");
+    this.value = "";
+    return;
+  }
+
+  if (file.size > 12 * 1024 * 1024) {
+    alert("১২ MB-এর চেয়ে ছোট ছবি নির্বাচন করুন।");
+    this.value = "";
+    return;
+  }
+
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+
+  img.onload = () => {
+    try {
+      const scale = Math.min(
+        1, 700 / Math.max(img.width, img.height)
+      );
+
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+
+      canvas.getContext("2d").drawImage(
+        img, 0, 0, canvas.width, canvas.height
+      );
+
+      currentImage = canvas.toDataURL("image/jpeg", 0.65);
+      $("preview").src = currentImage;
+      $("preview").style.display = "block";
+    } catch (error) {
+      console.error(error);
+      alert("ছবি প্রসেস করা যায়নি।");
+    }
+
+    URL.revokeObjectURL(url);
+  };
+
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    alert("ছবিটি খোলা যায়নি।");
+  };
+
+  img.src = url;
+};
+
+$("soleForm").onsubmit = async event => {
+  event.preventDefault();
+
+  if (!isAdmin) {
+    alert("প্রথমে Admin Login করুন।");
+    return;
+  }
+
+  const id = $("editId").value;
+  const oldItem = items.find(item => item.id === id);
+
+  if (!oldItem && !currentImage) {
+    alert("প্রথমে একটি ছবি নির্বাচন করুন।");
+    return;
+  }
+
+  const item = {
+    image: currentImage || oldItem?.image || "",
+    name: $("soleName").value.trim(),
+    colour: $("colour").value.trim(),
+    processing: $("processing").value.trim(),
+    mix: $("colourMix").value.trim(),
+    updatedAt: Date.now()
+  };
+
+  $("saveBtn").disabled = true;
+
+  try {
+    if (id) {
+      await update(ref(db, "products/" + id), item);
+    } else {
+      const newRef = push(productsRef);
+      await set(newRef, {
+        ...item,
+        createdAt: Date.now()
+      });
+    }
+
+    resetForm();
+    setStatus("Firebase-এ ডাটা সেভ হয়েছে।");
+    alert("সফলভাবে সেভ হয়েছে!");
+  } catch (error) {
+    console.error(error);
+    alert("সেভ হয়নি। Firebase Realtime Database Rules পরীক্ষা করুন।");
+  } finally {
+    $("saveBtn").disabled = false;
+  }
+};
+
 function editItem(id) {
+  if (!isAdmin) return;
+
   const item = items.find(x => x.id === id);
   if (!item) return;
 
   $("editId").value = item.id;
-  $("soleName").value = item.name;
-  $("colour").value = item.colour;
-  $("processing").value = item.processing;
-  $("colourMix").value = item.mix;
+  $("soleName").value = item.name || "";
+  $("colour").value = item.colour || "";
+  $("processing").value = item.processing || "";
+  $("colourMix").value = item.mix || "";
 
-  currentImage = item.image;
-  $("preview").src = item.image;
-  $("preview").style.display = "block";
+  currentImage = item.image || "";
+
+  if (currentImage) {
+    $("preview").src = currentImage;
+    $("preview").style.display = "block";
+  } else {
+    $("preview").removeAttribute("src");
+    $("preview").style.display = "none";
+  }
+
   $("formHeading").textContent = "Edit Sole";
-
+  $("saveBtn").textContent = "Update Item";
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function deleteItem(id) {
+async function deleteItem(id) {
+  if (!isAdmin) return;
+
   const item = items.find(x => x.id === id);
   if (!item || !confirm("এই আইটেমটি মুছে ফেলবেন?")) return;
 
-  items = items.filter(x => x.id !== id);
-
-  if (saveItems()) renderItems();
+  try {
+    await remove(ref(db, "products/" + id));
+    setStatus("আইটেম মুছে ফেলা হয়েছে।");
+  } catch (error) {
+    console.error(error);
+    alert("মুছে ফেলা যায়নি। Database Rules পরীক্ষা করুন।");
+  }
 }
 
 function renderItems() {
+  if (loading) return;
+
   const query = $("search").value.toLowerCase().trim();
 
   const filtered = items.filter(item =>
     [item.name, item.colour, item.processing, item.mix]
-      .some(value => String(value || "").toLowerCase().includes(query))
+      .some(value =>
+        String(value || "").toLowerCase().includes(query)
+      )
   );
 
   $("items").innerHTML = filtered.map(item => `
     <article class="card">
-      <img src="${escapeHTML(item.image)}"
-        alt="${escapeHTML(item.name)}">
+      <img
+        src="${escapeHTML(item.image)}"
+        alt="${escapeHTML(item.name || "Sole")}"
+        loading="lazy"
+      >
 
       <div class="card-body">
-        <h2>${escapeHTML(item.name)}</h2>
+        <h2>${escapeHTML(item.name || "Unnamed Sole")}</h2>
 
         <div class="detail">
           <b>COLOUR</b>${escapeHTML(item.colour || "—")}
@@ -438,15 +364,12 @@ function renderItems() {
         </div>
 
         <div class="detail">
-          <b>COLOUR MIX (made)</b>
-          ${escapeHTML(item.mix || "—")}
+          <b>COLOUR MIX (made)</b>${escapeHTML(item.mix || "—")}
         </div>
 
         ${isAdmin ? `
-          <button class="secondary"
-            data-edit="${escapeHTML(item.id)}">Edit</button>
-          <button class="delete"
-            data-delete="${escapeHTML(item.id)}">Delete</button>
+          <button class="secondary" data-edit="${escapeHTML(item.id)}">Edit</button>
+          <button class="delete" data-delete="${escapeHTML(item.id)}">Delete</button>
         ` : ""}
       </div>
     </article>
@@ -455,19 +378,37 @@ function renderItems() {
   $("emptyMessage").style.display =
     filtered.length ? "none" : "block";
 
-  $("items").querySelectorAll("[data-edit]").forEach(btn => {
-    btn.onclick = () => editItem(btn.dataset.edit);
+  $("emptyMessage").textContent = query
+    ? "কোনো মিল পাওয়া যায়নি।"
+    : "কোনো আইটেম নেই। Admin Login করে নতুন ছবি যোগ করুন।";
+
+  $("items").querySelectorAll("[data-edit]").forEach(button => {
+    button.onclick = () => editItem(button.dataset.edit);
   });
 
-  $("items").querySelectorAll("[data-delete]").forEach(btn => {
-    btn.onclick = () => deleteItem(btn.dataset.delete);
+  $("items").querySelectorAll("[data-delete]").forEach(button => {
+    button.onclick = () => deleteItem(button.dataset.delete);
   });
 }
 
 $("search").addEventListener("input", renderItems);
 
-renderItems();
-</script>
+onValue(productsRef, snapshot => {
+  const data = snapshot.val() || {};
 
+  items = Object.entries(data)
+    .filter(([, value]) => value && typeof value === "object")
+    .map(([id, value]) => ({ ...value, id }));
+
+  loading = false;
+  $("status").style.display = "none";
+  renderItems();
+}, error => {
+  console.error(error);
+  loading = false;
+  setStatus("ডাটা লোড হয়নি। Firebase Database Rules ও URL পরীক্ষা করুন।");
+  renderItems();
+});
+</script>
 </body>
 </html>
